@@ -11,6 +11,7 @@ export default function Research() {
         <input
           type="text"
           className="bg-transparent outline-none focus:outline-none flex-grow py-3 "
+          placeholder="Search"
         />
       </div>
     </div>

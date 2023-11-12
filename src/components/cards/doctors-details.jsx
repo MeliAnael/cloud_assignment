@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import profile from "@/@/profile.jpg";
+import { AiTwotoneStar } from "react-icons/ai";
 
 export default function DoctorDetailsCard() {
   return (
@@ -19,13 +20,41 @@ export default function DoctorDetailsCard() {
 
 export const Cards = () => {
   return (
-    <div className="carddoct flex justify-between px-4 py-3 bg-teal-300 w-auto">
-      <div className="stats flex flex-col bg-red-900">
-        <div className="stars"></div>
-        <h4>Doctor somebody</h4>
-        <h6>work somewhere everyday</h6>
+    <div className="flex justify-between items-center px-4 py-3 bg-[#2D97B6] gap-4 min-w-fit min-h-fit rounded-xl">
+      <div className="bg-base-100 rounded-xl items-start flex flex-col px-5 py-3">
+        <RenderStars times={5} />
+        <h4 className="text-xs font-bold text-start">Doctor somebody</h4>
+        <h6 className="text-sm font-normal text-start">California, LA</h6>
+        <button className="px-8 bg-[#2D97B6] rounded-2xl py-2 text-sm font-bold text-white my-4">
+          Contact
+        </button>
       </div>
-      <Image src={profile} className="" />
+      <Image src={profile} className="w-32 h-32 object-cover rounded-xl " />
+    </div>
+  );
+};
+
+export const DetailsCards = () => {
+  return (
+    <div className="flex justify-between items-center px-4 py-3 bg-[#2D97B6] gap-4 min-w-fit w-full min-h-fit rounded-xl">
+      <div className="bg-base-100 rounded-xl items-start flex flex-col px-5 py-3">
+        <RenderStars times={5} />
+        <h4 className="text-xs font-bold text-start">Doctor somebody</h4>
+        <h6 className="text-sm font-normal text-start">California, LA</h6>
+      </div>
+      <Image src={profile} className="w-24 h-24 object-cover rounded-xl " />
+    </div>
+  );
+};
+
+const RenderStars = ({ times = 5 }) => {
+  const counter = Array.from({ length: times }, (_, i) => i);
+
+  return (
+    <div className="flex w-full justify-start items-center p-2 gap-1">
+      {counter.map((item, index) => {
+        return <AiTwotoneStar size={10} color="#FFC817" />;
+      })}
     </div>
   );
 };
