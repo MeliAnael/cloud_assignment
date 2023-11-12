@@ -6,7 +6,7 @@ import DoctorStats from "@/components/cards/stats";
 
 export default function Index() {
   return (
-    <div className="flex my-8 items-center justify-center flex-col">
+    <div className="flex my-8 items-center justify-center flex-col mx-4">
       <DetailsCards />
       <CardActions />
       <AboutDoctor />

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import profile from "@/@/profile.jpg";
 import { AiTwotoneStar } from "react-icons/ai";
+import Link from "next/link";
 
 export default function DoctorDetailsCard() {
   return (
@@ -26,7 +27,7 @@ export const Cards = () => {
         <h4 className="text-xs font-bold text-start">Doctor somebody</h4>
         <h6 className="text-sm font-normal text-start">California, LA</h6>
         <button className="px-8 bg-[#2D97B6] rounded-2xl py-2 text-sm font-bold text-white my-4">
-          Contact
+          <Link href="/doctors/">Contact</Link>
         </button>
       </div>
       <Image src={profile} className="w-32 h-32 object-cover rounded-xl " />
