@@ -35,7 +35,7 @@ export const Cards = ({
           <Link href={"/doctors/" + id}>Contact</Link>
         </button>
       </div>
-      <Image
+      <img
         width="400"
         height="400"
         className="w-24 h-24 object-cover rounded-xl "

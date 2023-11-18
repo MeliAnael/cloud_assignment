@@ -5,15 +5,20 @@ export const metadata = {
 
 import Reply from "@/components/chat/reply";
 import CHatHeader from "@/components/chat/headers";
+import { getUser } from "@/components/chat/fucntions";
+import { getDoctor } from "@/components/doctors/getdoctors";
 
-export default function Layout({ children }) {
+export default async function Layout({ children, params }) {
+  const user = await getUser();
+  const { id } = params;
+  const doctor = await getDoctor(id);
+
   return (
     <html lang="en">
       <body className="mx-0 h-[100dvh] overflow-hidden relative">
-        <CHatHeader />
+        <CHatHeader {...doctor} userName={user.username} />
         <hr className="h-[0.05rem] bg-black" />
         {children}
-        <Reply />
       </body>
     </html>
   );

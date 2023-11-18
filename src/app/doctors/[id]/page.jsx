@@ -11,7 +11,7 @@ export default async function Index({ params }) {
   return (
     <div className="flex my-8 items-center justify-center flex-col mx-4">
       <DetailsCards {...doctor} />
-      <CardActions />
+      <CardActions id={id} />
       <AboutDoctor description={doctor.description} />
       <DoctorStats />
     </div>
