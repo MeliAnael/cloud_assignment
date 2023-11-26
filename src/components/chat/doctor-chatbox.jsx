@@ -5,7 +5,7 @@ import { getConversations } from "../doctors/test";
 import profile from "@/@/profile.jpg";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
-export default function ChatBox({ user, doctor }) {
+export default function DoctorChatBox({ user, doctor }) {
   const [conversations, setConversations] = useState([]);
   const scrollToRef = useRef(null);
   const websocketRef = useRef(null);
@@ -43,7 +43,7 @@ export default function ChatBox({ user, doctor }) {
 
   useEffect(() => {
     websocketRef.current = new WebSocket(
-      `ws://127.0.0.1:8000/ws/chats/${user}/${doctor}/0/`
+      `ws://127.0.0.1:8000/ws/chats/${user}/${doctor}/1/`
     );
 
     websocketRef.current.onopen = () => {
@@ -82,18 +82,17 @@ export default function ChatBox({ user, doctor }) {
       scrollToRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [conversations]);
-  console.log(user);
 
   return (
     <div className="flex flex-col w-full p-2 gap-6 min-h-[110dvh] overflow-auto scrollbar-hide py-24">
       {(Array.isArray(conversations) ? conversations : []).map((message) => {
-        console.log(message);
         console.log(user);
+        console.log(message);
         return (
           <Message
             key={message.id}
             {...message}
-            incoming={message.sender.username == user ? false : true}
+            incoming={user == message.sender.username ? true : false}
           />
         );
       })}

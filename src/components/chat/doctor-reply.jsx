@@ -4,7 +4,7 @@ import { RiImageAddLine } from "react-icons/ri";
 import { BsSend } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 
-export default function Reply(username, doctorname) {
+export default function DoctorReply(username, doctorname) {
   const user = username;
   const doctor = doctorname;
 
@@ -16,7 +16,7 @@ export default function Reply(username, doctorname) {
   } = useForm();
 
   const websocket = new WebSocket(
-    `ws://127.0.0.1:8000/ws/chats/${user.user}/${user.doctor}/0/`
+    `ws://127.0.0.1:8000/ws/chats/${user.user}/${user.doctor}/1/`
   );
 
   const onsubmit = (data) => {

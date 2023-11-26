@@ -5,6 +5,7 @@ import { getDoctor } from "@/components/doctors/getdoctors";
 
 export default async function Index({ params }) {
   const { id } = params;
+
   const user = await getUser();
   const doctor = await getDoctor(id);
 

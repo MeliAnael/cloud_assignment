@@ -14,6 +14,26 @@ export const getDoctors = async () => {
     });
 };
 
+export const getInbox = async () => {
+  const cookie = cookies();
+  const auth = cookie.get("auth");
+  return fetch("http://127.0.0.1:8000/ehealth/api/chats/inbox", {
+    next: { revalidate: 3600 },
+    headers: {
+      Authorization: `Bearer ${auth.value}`,
+    },
+  })
+    .then((answer) => answer.json())
+    .catch((error) => {
+      console.log(error);
+      return false;
+    })
+    .then((response) => {
+      console.log(response);
+      return response;
+    });
+};
+
 export const getDoctorsDetails = async (id) => {
   return fetch("http://127.0.0.1:8000/ehealth/api/doctors/" + id, {
     next: { revalidate: 3600 },
