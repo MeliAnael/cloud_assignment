@@ -86,8 +86,6 @@ export default function DoctorChatBox({ user, doctor }) {
   return (
     <div className="flex flex-col w-full p-2 gap-6 min-h-[110dvh] overflow-auto scrollbar-hide py-24">
       {(Array.isArray(conversations) ? conversations : []).map((message) => {
-        console.log(user);
-        console.log(message);
         return (
           <Message
             key={message.id}
@@ -112,7 +110,7 @@ export const Message = ({
     <div className={incoming ? "chat chat-start" : "chat chat-end"}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <Image src={profile} className="" alt="Profile" />
+          <img src={sender.profile} className="" alt="Profile" />
         </div>
       </div>
       <div className="chat-header">

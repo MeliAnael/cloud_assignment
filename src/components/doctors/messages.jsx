@@ -15,7 +15,7 @@ export async function Doctorsmessages() {
     const otherPerson =
       message.sender.id === loggedInUserId ? message.receiver : message.sender;
 
-    const chatUrl = `/chats/${otherPerson.username}/${user.username}`;
+    const chatUrl = `/asdoctor/chat/${otherPerson.username}/${user.username}`;
 
     if (
       !groupedConversations[otherPerson.id] ||
@@ -27,7 +27,6 @@ export async function Doctorsmessages() {
   });
 
   const uniqueConversations = Object.values(groupedConversations);
-  console.log(uniqueConversations);
 
   return <MiddleMessage datas={uniqueConversations} />;
 }

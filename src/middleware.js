@@ -18,9 +18,9 @@ export function middleware(NextRequest) {
       return NextResponse.redirect(redirectUrl);
     }
   } else if (NextRequest.nextUrl.pathname.startsWith("/chat")) {
-    console.log("we are in chat");
+    
     if (!NextRequest.cookies.has("auth")) {
-      console.log(NextRequest.cookies);
+      
       return NextResponse.redirect(
         "http://localhost:3000/auth/login",
         NextRequest.url

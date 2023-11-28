@@ -10,6 +10,7 @@ import { getDoctor } from "@/components/doctors/getdoctors";
 
 export default async function Layout({ children, params }) {
   const user = await getUser();
+  console.log(user);
   const { id } = params;
   const doctor = await getDoctor(id);
 

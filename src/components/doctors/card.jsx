@@ -2,6 +2,7 @@
 import profile from "@/@/profile.jpg";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function formatRelativeDate(dateString) {
   const date = parseISO(dateString);
@@ -16,6 +17,7 @@ export default function MessageCard({
   content = "",
   delivered = false,
   date = "",
+  url = "",
 }) {
   return (
     <div className="card w-full flex-row flex justify-between p-2 items-center cursor-pointer bg-base-200 bg-opacity-0 ">
@@ -32,7 +34,9 @@ export default function MessageCard({
         <h4 className="text-xs max-w-fit font-semibold text-center ">
           {sender.username}
         </h4>
-        <p className="w-full  text-[0.75rem] truncate">{content}</p>
+        <p className="w-full  text-[0.75rem] truncate">
+          <Link href={url}>{content}</Link>
+        </p>
       </div>
       <div className="flex flex-col items-center justify-center">
         <h4 className="text-xs max-w-fit font-semibold text-center text-green-600 truncate">
