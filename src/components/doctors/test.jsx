@@ -5,7 +5,7 @@ export const getConversations = async (sender, receiver) => {
   };
 
   return fetch(
-    "http://127.0.0.1:8000/ehealth/api/chats/conversations/conversation/",
+    "https://ehealth237.onrender.com/ehealth/api/chats/conversations/conversation/",
     {
       next: { revalidate: 1000 },
       method: "POST",
@@ -32,7 +32,7 @@ export const getMedicines = async (sender, receiver) => {
   };
 
   return fetch(
-    "http://127.0.0.1:8000/ehealth/api/chats/medicine/prescriptions/",
+    "https://ehealth237.onrender.com/ehealth/api/chats/medicine/prescriptions/",
     {
       next: { revalidate: 1000 },
       method: "POST",

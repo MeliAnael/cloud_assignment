@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 export const getDoctors = async () => {
-  return fetch("http://127.0.0.1:8000/ehealth/api/doctors/", {
+  return fetch("https://ehealth237.onrender.com/ehealth/api/doctors/", {
     next: { revalidate: 3600 },
   })
     .then((answer) => answer.json())
@@ -17,7 +17,7 @@ export const getDoctors = async () => {
 export const getInbox = async () => {
   const cookie = cookies();
   const auth = cookie.get("auth");
-  return fetch("http://127.0.0.1:8000/ehealth/api/chats/inbox", {
+  return fetch("https://ehealth237.onrender.com/ehealth/api/chats/inbox", {
     next: { revalidate: 3600 },
     headers: {
       Authorization: `Bearer ${auth.value}`,
@@ -35,7 +35,7 @@ export const getInbox = async () => {
 };
 
 export const getDoctorsDetails = async (id) => {
-  return fetch("http://127.0.0.1:8000/ehealth/api/doctors/" + id, {
+  return fetch("https://ehealth237.onrender.com/ehealth/api/doctors/" + id, {
     next: { revalidate: 3600 },
   })
     .then((answer) => answer.json())
@@ -49,7 +49,7 @@ export const getDoctorsDetails = async (id) => {
 };
 
 export const getDoctor = async (id) => {
-  return fetch("http://127.0.0.1:8000/ehealth/api/doctors/" + id, {
+  return fetch("https://ehealth237.onrender.com/ehealth/api/doctors/" + id, {
     next: { revalidate: 3600 },
   })
     .then((answer) => answer.json())
@@ -69,7 +69,7 @@ export const getConversations = async (sender, receiver) => {
   };
 
   return fetch(
-    "http://127.0.0.1:8000/ehealth/api/chats/conversations/conversation/",
+    "https://ehealth237.onrender.com/ehealth/api/chats/conversations/conversation/",
     {
       next: { revalidate: 1000 },
       method: "POST",

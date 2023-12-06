@@ -4,7 +4,7 @@ export const getUser = async () => {
   const cookieStore = cookies();
   const token = cookieStore.get("auth");
 
-  return fetch(`http://127.0.0.1:8000/ehealth/api/chats/me/`, {
+  return fetch(`https://ehealth237.onrender.com/ehealth/api/chats/me/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -16,4 +16,3 @@ export const getUser = async () => {
       return response[0];
     });
 };
-
