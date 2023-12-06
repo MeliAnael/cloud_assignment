@@ -70,7 +70,7 @@ export function LoginForm() {
 }
 
 const loginUser = async (data) => {
-  return fetch("http://localhost:8000/ehealth/auth/jwt/create/", {
+  return fetch("https://ehealth237.onrender.com/ehealth/auth/jwt/create/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -79,7 +79,6 @@ const loginUser = async (data) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      
       return data;
     });
 };
