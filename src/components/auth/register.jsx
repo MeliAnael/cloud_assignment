@@ -75,7 +75,7 @@ export function RegisterForm() {
 }
 
 const createUser = async (data) => {
-  return fetch("http://localhost:8000/ehealth/auth/users/", {
+  return fetch("https://ehealth237.onrender.com/ehealth/auth/users/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -84,7 +84,6 @@ const createUser = async (data) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      
       return data;
     });
 };

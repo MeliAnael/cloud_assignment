@@ -24,7 +24,9 @@ export default async function Header() {
           </h2>
         </div>
       ) : (
-        <button>login</button>
+        <button>
+          <Link href="/auth/login">login</Link>
+        </button>
       )}
     </div>
   );
