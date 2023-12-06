@@ -16,3 +16,4 @@ export const getUser = async () => {
       return response[0];
     });
 };
+

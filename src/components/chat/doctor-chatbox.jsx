@@ -1,10 +1,9 @@
 "use client";
-import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { getConversations } from "../doctors/test";
-import profile from "@/@/profile.jpg";
+import { getConversations, getMedicines } from "../doctors/test";
 import { formatDistanceToNow, parseISO } from "date-fns";
-
+import { FiDownload } from "react-icons/fi";
+import { toPng, toJpeg } from "html-to-image";
 export default function DoctorChatBox({ user, doctor }) {
   const [conversations, setConversations] = useState([]);
   const scrollToRef = useRef(null);
@@ -12,22 +11,34 @@ export default function DoctorChatBox({ user, doctor }) {
 
   const updateConversations = async () => {
     try {
-      const conversationsDatas = await getConversations(user, doctor);
-      if (Array.isArray(conversationsDatas)) {
-        const formattedConversations = conversationsDatas.map((msg) => ({
+      const conversationData = await getConversations(user, doctor);
+      const medicineData = await getMedicines(user, doctor);
+
+      if (Array.isArray(conversationData) && Array.isArray(medicineData)) {
+        const formattedConversations = conversationData.map((msg) => ({
           ...msg,
-          date: formatRelativeDate(msg.date), // Format the date
+          type: "message",
+          formattedDate: formatRelativeDate(msg.date),
+          isoDate: msg.date,
         }));
-        setConversations(formattedConversations);
+
+        const formattedMedicines = medicineData.map((med) => ({
+          ...med,
+          type: "medicine",
+          formattedDate: formatRelativeDate(med.date),
+          isoDate: med.date,
+        }));
+
+        const mergedData = [...formattedConversations, ...formattedMedicines];
+        mergedData.sort((a, b) => parseISO(a.isoDate) - parseISO(b.isoDate)); // Sort using ISO date
+
+        setConversations(mergedData);
       } else {
-        console.error(
-          "Expected conversations to be an array, got:",
-          conversationsDatas
-        );
+        console.error("Expected arrays, got:", conversationData, medicineData);
       }
     } catch (error) {
-      console.error("Error fetching conversations:", error);
-      setConversations([]); // Set as empty array in case of error
+      console.error("Error fetching data:", error);
+      setConversations([]);
     }
   };
 
@@ -52,24 +63,38 @@ export default function DoctorChatBox({ user, doctor }) {
 
     websocketRef.current.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
-      const transformedData = {
-        sender: {
-          // Assuming you can get sender's details (like id) from somewhere or leave it minimal
-          username: receivedData.sender,
-        },
-        receiver: {
-          // Assuming you can get receiver's details (like id) from somewhere or leave it minimal
-          username: receivedData.receiver,
-        },
-        content: receivedData.message,
-        date: formatRelativeDate(receivedData.date),
-        delivered: receivedData.delivered,
-        // You need a function to generate a unique ID for each message
-      };
-      setConversations((prevConversations) => [
-        ...prevConversations,
-        transformedData,
-      ]);
+
+      if (receivedData.type === "medicine_message") {
+        console.log("datas are:");
+        console.log(receivedData.data.medicaments);
+        const medicamentData = {
+          ...receivedData.data,
+          type: "medicine",
+          date: formatRelativeDate(receivedData.data.date),
+        };
+        setConversations((prevConversations) => [
+          ...prevConversations,
+          medicamentData,
+        ]);
+      } else {
+        const sender = eval(receivedData.sender)[0];
+        const transformedData = {
+          sender: {
+            username: sender.username,
+            profile: sender.profile,
+          },
+          receiver: {
+            username: receivedData.receiver,
+          },
+          content: receivedData.message,
+          formattedDate: formatRelativeDate(receivedData.date),
+          delivered: receivedData.delivered,
+        };
+        setConversations((prevConversations) => [
+          ...prevConversations,
+          transformedData,
+        ]);
+      }
     };
 
     return () => {
@@ -85,15 +110,19 @@ export default function DoctorChatBox({ user, doctor }) {
 
   return (
     <div className="flex flex-col w-full p-2 gap-6 min-h-[110dvh] overflow-auto scrollbar-hide py-24">
-      {(Array.isArray(conversations) ? conversations : []).map((message) => {
-        return (
-          <Message
-            key={message.id}
-            {...message}
-            incoming={user == message.sender.username ? true : false}
-          />
-        );
-      })}
+      {(Array.isArray(conversations) ? conversations : []).map(
+        (message, index) => {
+          return message.type == "medicine" ? (
+            <DataTable key={index} data={message.medicaments} />
+          ) : (
+            <Message
+              key={index}
+              {...message}
+              incoming={user == message.sender.username ? true : false}
+            />
+          );
+        }
+      )}
       <div ref={scrollToRef}></div>
     </div>
   );
@@ -103,7 +132,7 @@ export const Message = ({
   incoming = true,
   content = "Emerald Walker",
   sender = { username: "John" },
-  date = "52:45 14h",
+  formattedDate = "52:45 14h",
   receiver = { username: "John" },
 }) => {
   return (
@@ -115,7 +144,7 @@ export const Message = ({
       </div>
       <div className="chat-header">
         {sender.username}
-        <time className="text-xs opacity-50 px-2">{date}</time>
+        <time className="text-xs opacity-50 px-2">{formattedDate}</time>
       </div>
       <div
         className={incoming ? "chat-bubble" : "chat-bubble chat-bubble-accent"}
@@ -126,3 +155,56 @@ export const Message = ({
     </div>
   );
 };
+
+export function DataTable({ data }) {
+  const tableRef = useRef(null);
+  const downloadImage = async () => {
+    try {
+      const dataUrl = await toJpeg(document.getElementById("tableToDownload"));
+      // Create a link and set the URL as the link href
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      // Use a timestamp or another unique value for the filename
+      link.download = `prescriptions.jpg`;
+      // Append link to the body and trigger the download then remove the link
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Oops, something went wrong!", error);
+    }
+  };
+  return (
+    <div
+      className="overflow-x-auto bg-base-200  rounded-t-2xl"
+      id="tableToDownload"
+    >
+      <table className="table table-zebra" ref={tableRef}>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Form</th>
+            <th>Strenght</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item, index) => (
+            <tr key={index}>
+              <th>{index + 1}</th>
+              <td>{item.name}</td>
+              <td>{item.form}</td>
+              <td>{item.strenght} mg</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button
+        className="btn  bg-base-content m-2 text-base-100"
+        onClick={downloadImage}
+      >
+        <FiDownload />
+      </button>
+    </div>
+  );
+}

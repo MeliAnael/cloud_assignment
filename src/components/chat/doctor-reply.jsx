@@ -3,46 +3,7 @@ import React from "react";
 import { RiImageAddLine } from "react-icons/ri";
 import { BsSend } from "react-icons/bs";
 import { useForm } from "react-hook-form";
-import { FaPlusCircle } from "react-icons/fa";
-import MedicineSelector from "./medecine/send";
-
-const medicines = [
-  {
-    id: 1,
-    name: "Aspirin",
-    form: "Tablet",
-    strength: "500mg",
-    manufacturer: "Pharma Inc.",
-  },
-  {
-    id: 2,
-    name: "Paracetamol",
-    form: "Capsule",
-    strength: "500mg",
-    manufacturer: "HealthCorp",
-  },
-  {
-    id: 3,
-    name: "Ibuprofen",
-    form: "Suspension",
-    strength: "200mg/5ml",
-    manufacturer: "MediCare Solutions",
-  },
-  {
-    id: 4,
-    name: "Amoxicillin",
-    form: "Tablet",
-    strength: "250mg",
-    manufacturer: "Global Pharma",
-  },
-  {
-    id: 5,
-    name: "Cetirizine",
-    form: "Tablet",
-    strength: "10mg",
-    manufacturer: "AllergyFree Ltd.",
-  },
-];
+import { MedicamentButton } from "./medecine/form";
 
 export default function DoctorReply(username, doctorname) {
   const user = username;
@@ -83,7 +44,7 @@ export default function DoctorReply(username, doctorname) {
           />
         </div>
 
-        <MedicineSelector medicines={medicines} />
+        <MedicamentButton user={user.user} doctor={user.doctor} />
         <button type="submit">
           <BsSend size={24} />
         </button>
