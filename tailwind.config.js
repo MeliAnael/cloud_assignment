@@ -12,6 +12,13 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      screens: {
+        mobile: "320px",
+        tablet: "540px",
+        laptop: "1024px",
+        desktop: "1280px",
+        tv: "1940px",
+      }
     },
   },
   plugins: [require("daisyui"), require("tailwind-scrollbar-hide")],
