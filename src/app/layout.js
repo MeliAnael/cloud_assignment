@@ -1,4 +1,5 @@
 import { Poppins } from "next/font/google";
+import StoreProvider from './StoreProvider';
 import "./globals.css";
 
 const inter = Poppins({
@@ -15,7 +16,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className + " mx-4"}>{children}</body>
+      <StoreProvider>
+        <body className={inter.className + " mx-4 min-h-screen"}>{children}</body>
+      </StoreProvider>
     </html>
   );
 }
